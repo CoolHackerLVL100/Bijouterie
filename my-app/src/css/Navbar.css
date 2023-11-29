@@ -1,0 +1,71 @@
+.icons_grid_mixin {
+  display: grid;
+  grid-template-columns: repeat(3, 21px);
+  justify-content: space-evenly;
+  align-items: center;
+}
+header {
+  position: fixed;
+  height: 48px;
+  width: 100%;
+  max-width: 1920px;
+  background: #ECECEC linear-gradient(135deg, #730b8554 5%, transparent 15%, #730b857a 55%, #730b857a 66%, transparent);
+  filter: drop-shadow(0 2px 4px #777);
+  z-index: 1;
+}
+header .navigation_bar {
+  display: grid;
+  grid-template-columns: 108px auto 108px;
+  height: 100%;
+}
+header .navigation_bar .left_icons_group {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  display: grid;
+  grid-template-columns: repeat(3, 21px);
+  justify-content: space-evenly;
+  align-items: center;
+}
+header .navigation_bar .site_name {
+  display: inline;
+  grid-column-start: 2;
+  grid-column-end: 3;
+  text-align: center;
+  padding-top: 15px;
+  line-height: 20px;
+  font-style: italic;
+  font-size: large;
+  color: #ffef99;
+}
+header .navigation_bar .right_icons_group {
+  grid-column-start: 3;
+  grid-column-end: 4;
+  display: grid;
+  grid-template-columns: repeat(3, 21px);
+  justify-content: space-evenly;
+  align-items: center;
+}
+header .navigation_bar .right_icons_group > a:nth-last-child(1) > .icons * {
+  stroke: #ac3939;
+}
+header .navigation_bar .icons {
+  height: 21px;
+  width: 21px;
+}
+header .navigation_bar .icons:hover {
+  cursor: pointer;
+  height: 25px;
+  width: 25px;
+  transform: translateX(-2px);
+}
+header .navigation_bar .icons svg {
+  width: 100%;
+  height: 100%;
+}
+header .navigation_bar .name {
+  font-style: italic;
+  font-size: 32px;
+  line-height: 32px;
+  height: 32px;
+  color: #d7ad51;
+}

@@ -1,0 +1,66 @@
+.auth_form {
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  right: 0px;
+  width: 300px;
+  height: max-content;
+  margin: 0 auto;
+  transform: translateY(-50%);
+  background: linear-gradient(150deg, gold 0%, #ffef99 25%, #c29d47 50%, #ffef99 75%, gold 100%);
+  font-family: 'PlayfairDisplay';
+}
+.auth_form form {
+  padding: 30px;
+  background-color: white;
+  margin: 2px;
+}
+.auth_form form .field {
+  margin-bottom: 20px;
+}
+.auth_form form .field:has(input:focus) {
+  color: #690c97;
+}
+.auth_form form .field input {
+  width: 100%;
+  height: 25px;
+  margin-top: 5px;
+  box-sizing: border-box;
+  border: 1px solid #6E6E6E;
+  background-color: #F2F2F2;
+}
+.auth_form form .field input:focus {
+  border: 2px solid #690c97;
+  outline: none;
+}
+.auth_form form button {
+  height: 50px;
+  width: 100%;
+  margin-top: 20px;
+  box-sizing: border-box;
+  background-color: #F2F2F2;
+  border: 2px solid #690c97;
+  color: #690c97;
+  font-size: 18px;
+}
+.auth_form form button:hover {
+  background-color: #690c97;
+  color: #F2F2F2;
+  cursor: pointer;
+}
+.auth_form form .error_message {
+  color: #cd0000;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 20px;
+}
+.auth_form form a {
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  text-align: center;
+  color: #690c97;
+}
+.auth_form form a:hover {
+  color: #ffca00;
+}

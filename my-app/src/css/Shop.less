@@ -1,0 +1,213 @@
+@main_color: #690c97;
+@light_violet: #9e52c4;
+@dark_violet: #3c0557;
+
+.shop_section {
+    position: absolute;
+    top: 148px;
+    width: 100%;
+    max-width: 1920px;
+
+    .main_content {
+        display: grid;
+        grid-template-columns: 280px auto;
+        grid-template-rows: 50px auto;
+        grid-template-areas: "a b" "c d";
+
+        .types {
+            grid-area: b;
+            
+            form {
+                display: grid;
+                grid-template-columns: repeat(7, 14.28%);
+                margin: 10px;
+                justify-content: space-between;
+                box-shadow: 0 0 5px 0px #bababa;
+
+                button {
+                    position: relative;
+                    height: 32px;
+                    width: 100%;
+                    background-color: white;
+                    border: 1px;
+                    font-weight: bold;
+
+                    &:not([disabled]):hover {
+                        background-color: #ebebeb;
+                        cursor: pointer;
+                    }
+                }         
+                
+                .selected_type {
+                    background-color: @main_color;
+                    color: white;
+                    opacity: 0.55;
+                }
+            }
+
+
+        }
+
+        aside {
+            grid-area: c;
+
+            form {
+                display: grid;
+                row-gap: 25px;
+                padding: 25px;
+                margin: 10px;
+                box-shadow: 0 0 5px 0px #bababa;
+                
+                .selector {
+                    display: grid;
+                    grid-template-columns: 100%;
+                    row-gap: 5px;
+                    justify-content: space-between;
+                    justify-items: start;
+                    
+                    label {
+                        text-align: center;           
+                            
+                        input {
+                            margin: 0px 10px;
+                        }
+
+                        input[type=range]{
+                            width: 90%;
+                            appearance: none;
+
+                            &::-webkit-slider-runnable-track {
+                                background-color: white;
+                                height: 5px;
+                                border: 1px solid @main_color;
+                                border-radius: 5px;
+                            }
+
+                            &::-webkit-slider-thumb {
+                                background: rgba(255, 255, 255, 0);
+                                width: 20px;
+                                height: 20px;
+                                border-radius: 10px;
+                                margin-top: -8px;
+                                -webkit-appearance: none;
+                                background-color: @main_color;
+
+                                &:hover {
+                                    background-color: @light_violet;
+                                }
+
+                                &:active {
+                                    background-color: @dark_violet;
+                                }
+                            }
+                        }
+                    }
+
+                    .selector_title {
+                        width: 100%;
+                        text-align: center;
+                        font-weight: bold;
+                        font-size: 18px;
+                        color: @main_color;
+                    }
+                }
+
+                .price_selector {
+                    row-gap: 20px;
+                }
+
+                .size_selector {
+                    grid-template-areas: "a a a" "b c d";
+                    grid-template-columns: repeat(3, 30%);
+
+                    .selector_title {
+                        grid-area: a;
+                        
+                    }
+                }
+
+                button {
+                    position: relative;
+                    height: 50px;
+                    width: 90%;
+                    left: 5%;
+                    margin-top: 20px;
+                    box-sizing: border-box;
+                    background-color: white;
+                    border: 2px solid @main_color;
+                    color: @main_color;
+                    font-size: 18px;
+
+                    &:hover {
+                        background-color: @main_color;
+                        color: white;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+
+        .catalog {
+            grid-area: d;
+            display: grid;
+            grid-template-columns: 33% 33% 33%;
+            height: fit-content;
+            justify-content: space-between;
+            align-content: space-evenly;
+
+            .item {
+                padding: 20px;
+                margin: 10px;
+                height: fit-content;
+                box-shadow: 0 0 5px 0px #bababa;
+                background-color: #ffffff;
+
+                &:hover {
+                    cursor: pointer;
+                    transform: scale(1.02);
+
+                    color: @main_color;
+                }
+                
+                .item-image {
+                    width: 100%;
+
+                    img {
+                        width: 100%;
+                    }                
+                }
+
+                .item-info {
+                    display: grid;
+                    row-gap: 5px;
+                    margin-bottom: 20px;
+                    font-size: 14px;
+
+                    .item-name {
+                        text-align: center;
+                        font-weight: bold;
+                        padding-bottom: 25px;
+                        font-size: 16px;
+                        border-bottom: 1px solid gray;
+                    }                
+                }
+            }
+
+            .no-items {
+                text-align: center;
+                font-size: 24px;
+                margin-top: 50px;
+                grid-column-start: 2;
+
+                &::after {
+                    content: 'Товары отсутствуют';
+                    position: relative;
+                    top: -10px;
+                    left: 10px;
+                    color: #cbcbcb;
+                }
+            }
+        }    
+    }
+
+}

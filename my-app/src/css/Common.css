@@ -1,0 +1,69 @@
+@font-face {
+  font-family: 'PlayfairDisplay';
+  src: url(http://localhost/Bijouterie/backend/api/font/PlayfairDisplay-Medium.ttf);
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: 'PlayfairDisplay';
+  src: url(http://localhost/Bijouterie/backend/api/font/PlayfairDisplay-Bold.ttf);
+  font-style: normal;
+  font-weight: bold;
+}
+@font-face {
+  font-family: 'PlayfairDisplay';
+  src: url(http://localhost/Bijouterie/backend/api/font/PlayfairDisplay-MediumItalic.ttf);
+  font-style: italic;
+  font-weight: normal;
+}
+@font-face {
+  font-family: 'PlayfairDisplay';
+  src: url(http://localhost/Bijouterie/backend/api/font/PlayfairDisplay-BoldItalic.ttf);
+  font-style: italic;
+  font-weight: bold;
+}
+@font-face {
+  font-family: 'Roboto';
+  src: url(http://localhost/Bijouterie/backend/api/font/Roboto-Medium.ttf);
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: 'Roboto';
+  src: url(http://localhost/Bijouterie/backend/api/font/Roboto-Bold.ttf);
+  font-style: normal;
+  font-weight: bold;
+}
+@font-face {
+  font-family: 'Roboto';
+  src: url(http://localhost/Bijouterie/backend/api/font/Roboto-MediumItalic.ttf);
+  font-style: italic;
+  font-weight: normal;
+}
+@font-face {
+  font-family: 'Roboto';
+  src: url(http://localhost/Bijouterie/backend/api/font/Roboto-BoldItalic.ttf);
+  font-style: italic;
+  font-weight: bold;
+}
+* {
+  margin: 0;
+}
+div#root > * {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}
+.container {
+  height: 100%;
+  width: 66%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.PlayfairDisplay {
+  font-family: 'PlayfairDisplay';
+}
+.Roboto {
+  font-family: 'Roboto';
+}

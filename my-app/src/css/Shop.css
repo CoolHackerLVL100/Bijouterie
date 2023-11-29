@@ -1,0 +1,173 @@
+.shop_section {
+  position: absolute;
+  top: 148px;
+  width: 100%;
+  max-width: 1920px;
+}
+.shop_section .main_content {
+  display: grid;
+  grid-template-columns: 280px auto;
+  grid-template-rows: 50px auto;
+  grid-template-areas: "a b" "c d";
+}
+.shop_section .main_content .types {
+  grid-area: b;
+}
+.shop_section .main_content .types form {
+  display: grid;
+  grid-template-columns: repeat(7, 14.28%);
+  margin: 10px;
+  justify-content: space-between;
+  box-shadow: 0 0 5px 0px #bababa;
+}
+.shop_section .main_content .types form button {
+  position: relative;
+  height: 32px;
+  width: 100%;
+  background-color: white;
+  border: 1px;
+  font-weight: bold;
+}
+.shop_section .main_content .types form button:not([disabled]):hover {
+  background-color: #ebebeb;
+  cursor: pointer;
+}
+.shop_section .main_content .types form .selected_type {
+  background-color: #690c97;
+  color: white;
+  opacity: 0.55;
+}
+.shop_section .main_content aside {
+  grid-area: c;
+}
+.shop_section .main_content aside form {
+  display: grid;
+  row-gap: 25px;
+  padding: 25px;
+  margin: 10px;
+  box-shadow: 0 0 5px 0px #bababa;
+}
+.shop_section .main_content aside form .selector {
+  display: grid;
+  grid-template-columns: 100%;
+  row-gap: 5px;
+  justify-content: space-between;
+  justify-items: start;
+}
+.shop_section .main_content aside form .selector label {
+  text-align: center;
+}
+.shop_section .main_content aside form .selector label input {
+  margin: 0px 10px;
+}
+.shop_section .main_content aside form .selector label input[type=range] {
+  width: 90%;
+  appearance: none;
+}
+.shop_section .main_content aside form .selector label input[type=range]::-webkit-slider-runnable-track {
+  background-color: white;
+  height: 5px;
+  border: 1px solid #690c97;
+  border-radius: 5px;
+}
+.shop_section .main_content aside form .selector label input[type=range]::-webkit-slider-thumb {
+  background: rgba(255, 255, 255, 0);
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  margin-top: -8px;
+  -webkit-appearance: none;
+  background-color: #690c97;
+}
+.shop_section .main_content aside form .selector label input[type=range]::-webkit-slider-thumb:hover {
+  background-color: #9e52c4;
+}
+.shop_section .main_content aside form .selector label input[type=range]::-webkit-slider-thumb:active {
+  background-color: #3c0557;
+}
+.shop_section .main_content aside form .selector .selector_title {
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  color: #690c97;
+}
+.shop_section .main_content aside form .price_selector {
+  row-gap: 20px;
+}
+.shop_section .main_content aside form .size_selector {
+  grid-template-areas: "a a a" "b c d";
+  grid-template-columns: repeat(3, 30%);
+}
+.shop_section .main_content aside form .size_selector .selector_title {
+  grid-area: a;
+}
+.shop_section .main_content aside form button {
+  position: relative;
+  height: 50px;
+  width: 90%;
+  left: 5%;
+  margin-top: 20px;
+  box-sizing: border-box;
+  background-color: white;
+  border: 2px solid #690c97;
+  color: #690c97;
+  font-size: 18px;
+}
+.shop_section .main_content aside form button:hover {
+  background-color: #690c97;
+  color: white;
+  cursor: pointer;
+}
+.shop_section .main_content .catalog {
+  grid-area: d;
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+  height: fit-content;
+  justify-content: space-between;
+  align-content: space-evenly;
+}
+.shop_section .main_content .catalog .item {
+  padding: 20px;
+  margin: 10px;
+  height: fit-content;
+  box-shadow: 0 0 5px 0px #bababa;
+  background-color: #ffffff;
+}
+.shop_section .main_content .catalog .item:hover {
+  cursor: pointer;
+  transform: scale(1.02);
+  color: #690c97;
+}
+.shop_section .main_content .catalog .item .item-image {
+  width: 100%;
+}
+.shop_section .main_content .catalog .item .item-image img {
+  width: 100%;
+}
+.shop_section .main_content .catalog .item .item-info {
+  display: grid;
+  row-gap: 5px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+.shop_section .main_content .catalog .item .item-info .item-name {
+  text-align: center;
+  font-weight: bold;
+  padding-bottom: 25px;
+  font-size: 16px;
+  border-bottom: 1px solid gray;
+}
+.shop_section .main_content .catalog .no-items {
+  text-align: center;
+  font-size: 24px;
+  margin-top: 50px;
+  grid-column-start: 2;
+}
+.shop_section .main_content .catalog .no-items::after {
+  content: 'Товары отсутствуют';
+  position: relative;
+  top: -10px;
+  left: 10px;
+  color: #cbcbcb;
+}
