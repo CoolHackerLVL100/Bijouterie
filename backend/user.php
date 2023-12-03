@@ -1,195 +1,150 @@
 <?php
     require_once 'connection.php';
     require_once 'user_model.php';
+    require_once 'request.php';
 
     header('Content-Type: application/json; charset=utf-8');
+    header('Access-Control-Allow-Origin: http://localhost:3000');
+    header('Access-Control-Allow-Credentials: true');
+    header('Access-Control-Allow-Methods: DELETE, POST, GET, OPTIONS');
+    header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
+    header('Access-Control-Max-Age: 86400');
 
-    check_token();
-    function not_found_response(){
-        http_response_code(404);
-        echo json_encode([
-            'status' => 'Not Found'
-        ]);
-    }
-
-    function not_authorized_response(){
-        http_response_code(403);
-        echo json_encode([
-            'status' => 'Forbidden'
-        ]);
-    }
-
-    function get_handler(){
-        $uri = parse_url($_SERVER['REQUEST_URI']);
-        $segments = explode('/', $uri['path']);
-
-        if (isset($segments[5]) && is_numeric($segments[5])) {    
+    final class User {
+        public static function get_user(){
             if (check_token()){
                 try {
-                    http_response_code(200);
-                    echo json_encode([
-                        'status' => 'Ok',
-                        'method' => 'GET',
-                        'data' => UserModel::get(      
-                            $_GET['id'],
-                        )  
-                    ]);            
+                    Request::response(200, '', UserModel::get(      
+                        $_GET['id'],
+                    ));
                 } catch (Exception $e) {
-                    http_response_code(500);  
-                    echo json_encode([
-                        'status' => 'Internal Server Error',
-                        'method' => 'GET',
-                        'message' => $e->getMessage()
-                    ]);
+                    Request::response(500, $e->getMessage());
                 }
             } else {
-                not_authorized_response();
+                Request::response(401, 'Отсутствуют права доступа на данный ресурс');
             }
-        } else {
+        }
+        public static function get_users(){
             if (check_token(true)){
                 try {
-                    http_response_code(200);
-                    echo json_encode([
-                        'status' => 'Ok',
-                        'method' => 'GET',
-                        'data' => UserModel::filter(      
-                            $_GET['min_registration_date'],
-                            $_GET['max_registration_date'],
-                            $_GET['min_personal_stock'],
-                            $_GET['max_personal_stock'],
-                            $_GET['firstname'],
-                            $_GET['lastname'],
-                            $_GET['emailname'],
-                            $_GET['gender']
-                        )  
-                    ]);            
+                    Request::response(200, '', UserModel::filter(      
+                        $_GET['min_registration_date'],
+                        $_GET['max_registration_date'],
+                        $_GET['min_personal_stock'],
+                        $_GET['max_personal_stock'],
+                        $_GET['firstname'],
+                        $_GET['lastname'],
+                        $_GET['emailname'],
+                        $_GET['gender']
+                    ));          
                 } catch (Exception $e) {
-                    http_response_code(500);  
-                    echo json_encode([
-                        'status' => 'Internal Server Error',
-                        'method' => 'GET',
-                        'message' => $e->getMessage()
-                    ]);
+                    Request::response(500, $e->getMessage());
                 }                
             } else {
-                not_authorized_response();
+                Request::response(401, 'Отсутствуют права доступа на данный ресурс');
             }
-        }            
-    }
-
-    function post_handler(){
-        $uri = parse_url($_SERVER['REQUEST_URI']);
-        $segments = explode('/', $uri['path']);
-
-        if (isset($segments[5]) && $segments[5] == 'auth') {
+        }
+        public static function get_cart(){
+            if (check_token()){
+                try {
+                    Request::response(200, '', UserModel::get_cart(      
+                        $_GET['id'],
+                    ));          
+                } catch (Exception $e) {
+                    Request::response(500, $e->getMessage());
+                }                
+            } else {
+                Request::response(401, 'Отсутствуют права доступа на данный ресурс');
+            }            
+        }
+        public static function add_to_cart(){
+            if (check_token()){
+                try {
+                    Request::response(201, '', UserModel::add_to_cart(      
+                        $_GET['user_id'],
+                        $_GET['product_id']
+                    ));          
+                } catch (Exception $e) {
+                    Request::response(500, $e->getMessage());
+                }                
+            } else {
+                Request::response(401, 'Отсутствуют права доступа на данный ресурс');
+            }      
+        }
+        public static function remove_from_cart(){
+            if (check_token()){
+                try {
+                    Request::response(200, '', UserModel::remove_from_cart(      
+                        $_GET['user_id'],
+                        $_GET['product_id']
+                    ));          
+                } catch (Exception $e) {
+                    Request::response(500, $e->getMessage());
+                }                
+            } else {
+                Request::response(401, 'Отсутствуют права доступа на данный ресурс');
+            }            
+        }
+        public static function auth_user(){
             try {
-                http_response_code(200);
-                echo json_encode([
-                    'status' => 'Ok',
-                    'method' => 'POST',
-                    'data' => UserModel::auth(      
-                        $_POST['login'],
-                        $_POST['password']
-                    )  
-                ]);            
+                Request::response(200, '', UserModel::auth(      
+                    $_POST['login'],
+                    $_POST['password']
+                ));          
             } catch (Exception $e) {
-                switch ($e->getCode()) {
-                    case 401:
-                        http_response_code(401);  
-                        echo json_encode([
-                            'status' => 'Unauthorized',
-                            'method' => 'POST',
-                            'message' => $e->getMessage()
-                        ]);
-                        break;
-                    case 500:
-                        http_response_code(500);  
-                        echo json_encode([
-                            'status' => 'Internal Server Error',
-                            'method' => 'POST',
-                            'message' => $e->getMessage()
-                        ]);
-                        break;
-                }
-            } 
-        } elseif (isset($segments[5]) && $segments[5] == 'reg') {
-            try {
-                if (!isset($_POST['email']) || !isset($_POST['login']) || !isset($_POST['password']) || !isset($_POST['password_confirm']))
-                    throw new Exception('Отсутствуют данные', 400);
-                if ($_POST['password'] != $_POST['password_confirm'])
-                    throw new Exception('Пароли не совпадают', 400);
-                http_response_code(201);
-                echo json_encode([
-                    'status' => 'Created',
-                    'method' => 'POST',
-                    'data' => UserModel::register(      
-                        $_POST['email'],
-                        $_POST['login'],
-                        $_POST['password']
-                    )  
-                ]);            
-            } catch (Exception $e) {
-                switch ($e->getCode()) {
-                    case 400:
-                        http_response_code(400);  
-                        echo json_encode([
-                            'status' => 'Bad Request',
-                            'method' => 'POST',
-                            'message' => $e->getMessage()
-                        ]);
-                        break;
-                    case 409:
-                        http_response_code(409);  
-                        echo json_encode([
-                            'status' => 'Conflict',
-                            'method' => 'POST',
-                            'message' => $e->getMessage()
-                        ]);
-                        break;
-                    case 500:
-                        http_response_code(500);  
-                        echo json_encode([
-                            'status' => 'Internal Server Error',
-                            'method' => 'POST',
-                            'message' => $e->getMessage()
-                        ]);
-                        break;
-                }
+                Request::response($e->getCode(), $e->getMessage());
             } 
         }
-    }
+        public static function reg_user(){
+            try {
+                Request::response(201, '', UserModel::register(      
+                    $_POST['email'],
+                    $_POST['login'],
+                    $_POST['password']
+                ));           
+            } catch (Exception $e) {
+                Request::response($e->getCode(), $e->getMessage());
+            } 
+        }
+        public static function update_user(){
 
-    function put_handler(){
-        http_response_code(200);
-        echo json_encode([
-            'status' => 'Ok',
-            'method' => 'PUT'
-        ]);        
-    }
+        }
+        public static function remove_user(){
+            if (check_token(true)){
+                try {
+                    Request::response(200, '', UserModel::remove(      
+                        $_GET['user_id']
+                    ));          
+                } catch (Exception $e) {
+                    Request::response(500, $e->getMessage());
+                }                
+            } else {
+                Request::response(401, 'Отсутствуют права доступа на данный ресурс');
+            }  
+        }
+        private static function validate(){
+            if (!isset($_POST['email']) || !isset($_POST['login']) || !isset($_POST['password']) || !isset($_POST['password_confirm'])) //validation
+                throw new Exception('Отсутствуют данные', 400);
 
-    function delete_handler(){
-        http_response_code(200);
-        echo json_encode([
-            'status' => 'Ok',
-            'method' => 'DELETE'
-        ]);
-    }
+            if ($_POST['email'] == '' || $_POST['login'] == '' || $_POST['password'] == '' || $_POST['password_confirm'] == '') //validation
+                throw new Exception('Отсутствуют данные', 400);
 
-    switch ($_SERVER['REQUEST_METHOD']){ //checking of method
-        case 'GET':
-            get_handler();
-            break;
-        case 'POST':
-            post_handler();
-            break;
-        case 'PUT':
-            put_handler();  
-            break;
-        case 'DELETE':
-            delete_handler();   
-            break;
-        default:
-            not_found_response();
-            
+            if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
+                throw new Exception('Некорректный Email', 400);
+
+            if (!preg_match('/^([a-zA-Z\-_0-9.])+$/', $_POST['login']))
+                throw new Exception('Логин содержит недопустимые символы', 400);
+
+            if (strlen($_POST['login']) < 3 || strlen($_POST['login']) > 20)
+                throw new Exception('Длина логина должна составлять от 3 до 20 символов', 400);
+
+            if (!preg_match('/^([a-zA-Z\-_0-9.])+$/', $_POST['password']))
+                throw new Exception('Пароль содержит недопустимые символы', 400);
+
+            if (strlen($_POST['password']) < 8 || strlen($_POST['password']) > 30)
+                throw new Exception('Длина пароля должна составлять от 8 до 30 символов', 400);
+
+            if ($_POST['password'] != $_POST['password_confirm'])
+                throw new Exception('Пароли не совпадают', 400);
+        }
     }
-?>

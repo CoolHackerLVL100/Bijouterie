@@ -3,11 +3,10 @@
     require_once 'jwt.php';
 
     final class UserModel extends AbstractModel {
-        protected static $table_name = 'public.user';
         public static function get($id){
             global $user_connect; 
 
-            $result = static::select($user_connect, [
+            $result = static::select('public.user', $user_connect, [
                 'id', 
                 'is_admin', 
                 'registration_date', 
@@ -24,10 +23,10 @@
             if (!$result)
                 throw new Exception('Ошибка запроса');
 
-            return Database::fetch_all($result);
+            return Database::fetch_all($result)[0];
         }
         public static function filter($min_registration_date, $max_registration_date, $min_personal_stock, $max_personal_stock, $firstname, $lastname, $email, $gender){
-            global $user_connect; 
+            global $admin_connect; 
             
             if ($min_registration_date == '')
                 $min_registration_date = '\'2020-01-01\'';
@@ -41,7 +40,7 @@
             if ($max_personal_stock == '')
                 $max_personal_stock = '1';
 
-            $result = static::select($user_connect, [
+            $result = static::select('public.user', $admin_connect, [
                 'id', 
                 'is_admin', 
                 'registration_date', 
@@ -65,10 +64,71 @@
 
             return Database::fetch_all($result);
         }
+        public static function get_cart($id){
+            global $user_connect; 
+
+            $result = static::select('public.user', $user_connect, [
+                'public.product.id', 
+                'public.product.name', 
+                'price', 
+                'photo', 
+            ], [
+                'user_id = ' . $id
+            ], [
+                ['public.cart', 'INNER', 'public.user.id', 'public.cart.user_id'],
+                ['public.product', 'INNER', 'public.product.id', 'public.cart.product_id']
+            ]);
+
+            if (!$result)
+                throw new Exception('Ошибка запроса');
+
+            return Database::fetch_all($result);          
+        } 
+        public static function add_to_cart($user_id, $product_id){
+            global $user_connect; 
+
+            $result = static::insert('public.cart', $user_connect, [
+                'user_id', 
+                'product_id'
+            ], [
+                $user_id,
+                $product_id
+            ]);
+
+            if (!$result)
+                throw new Exception('Ошибка запроса');
+
+            return Database::fetch_all($result);
+        }
+        public static function remove_from_cart($user_id, $product_id){
+            global $user_connect; 
+
+            $result = static::delete('public.cart', $user_connect, [
+                'user_id = ' . $user_id,
+                'product_id = ' . $product_id
+            ]);
+
+            if (!$result)
+                throw new Exception('Ошибка запроса');
+
+            return Database::fetch_all($result);
+        }
+        public static function remove($user_id, $product_id){
+            global $admin_connect; 
+
+            $result = static::delete('public.user', $admin_connect, [
+                'id = ' . $user_id
+            ]);
+
+            if (!$result)
+                throw new Exception('Ошибка запроса');
+
+            return Database::fetch_all($result);
+        }
         public static function auth($login, $password){
             global $user_connect;
 
-            $result = static::select($user_connect, [
+            $result = static::select('public.user', $user_connect, [
                 'id', 
                 'is_admin',
             ], [
@@ -87,6 +147,7 @@
             $expiration = 86400; //token lives 24h
             $token = create_token($result[0], $expiration); //jwt token creation
             setcookie('jwt', $token, time() + $expiration, '/');
+            setcookie('id', $result[0]['id'], time() + $expiration, '/');
 
             return [
                 'id' => $result[0]['id'],
@@ -96,7 +157,7 @@
         public static function register($email, $login, $password){
             global $user_connect;
 
-            $check = static::select($user_connect, [
+            $check = static::select('public.user', $user_connect, [
                 'id'
             ], [
                 'login = \'' . $login . '\' OR email = \'' . $email . '\''
@@ -110,7 +171,7 @@
             if (sizeof($check)) //login and password not matched
                 throw new Exception('Пользователь с данным логином или электронной почтой уже существует', 409);
 
-            $result = static::insert($user_connect, [
+            $result = static::insert('public.user', $user_connect, [
                 'is_admin',
                 'login',
                 'password',

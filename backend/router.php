@@ -28,7 +28,8 @@
             '/^\/Bijouterie\/backend\/api\/user\/([0-9]+)\/cart\/([0-9]+)\/$/' => ['User', 'add_to_cart'],
         ];
         private static $delete_routes = [
-            '/^\/Bijouterie\/backend\/api\/user\/([0-9]+)\/cart\/([0-9]+)\/$/' => ['User', 'delete_from_cart'], //delete item from cart of user
+            '/^\/Bijouterie\/backend\/api\/user\/([0-9]+)\/$/' => ['User', 'remove'],
+            '/^\/Bijouterie\/backend\/api\/user\/([0-9]+)\/cart\/([0-9]+)\/$/' => ['User', 'remove_from_cart'], //remove item from cart of user
         ];
         public static function go($route){
             $routes = [];

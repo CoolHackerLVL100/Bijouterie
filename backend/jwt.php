@@ -3,7 +3,13 @@
 function check_token($admin_required = false) {
     $headers = apache_request_headers();
 
+    // error_log(implode(', ', array_keys($headers)));
+    // error_log(implode(', ', $headers));
+    // echo('COOKIE: '.implode(', ', $_COOKIE));
+    // echo('Header: '.$headers['Authorization']);
     if(isset($headers['Authorization']) && isset($_COOKIE['jwt'])){
+        error_log($headers['Authorization']);
+
         $is_admin = decode_token($headers['Authorization'])['payload']->is_admin;
 
         if ($is_admin){ //admin can do everything

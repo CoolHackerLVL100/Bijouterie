@@ -7,7 +7,7 @@
         public static function get($id){
             global $user_connect;
 
-            $result = static::select($user_connect, [
+            $result = static::select('public.product', $user_connect, [
                 'public.product.id', 
                 'type', 
                 'public.product.name', 
@@ -35,16 +35,7 @@
         public static function filter($type, $min_price, $max_price, $gender, $size, $stones, $materials){
             global $user_connect;
 
-            //if (sizeof($stones) == 1 && $stones[0] == '')
-                // $stones = [
-                //     'Фианит', 'Ювелирное стекло', 'Эмаль', 'Кварц', 'Янтарь', 'Султанит', 'Перламутр', 'Гематит', 'Жемчуг', 'Агат', 'Шпинель', 'Халцедон', 'Корунд', 'Опал', 'Кристалл', 'Авантюрин'
-                // ];
-            //if (sizeof($materials) == 1 && $materials[0] == '')
-                // $materials = [
-                //     'Золото', 'Серебро', 'Медсплав', 'Керамика', 'Нержавеющая сталь', 'Родирование', 'Бижутерный сплав'
-                // ];
-
-            $result = static::select($user_connect, [
+            $result = static::select('public.product', $user_connect, [
                 'public.product.id', 
                 'type', 
                 'public.product.name', 
@@ -66,9 +57,11 @@
                 ['public.product_stone', 'LEFT', 'public.product.id', 'public.product_stone.product_id'],
                 ['public.stone', 'LEFT', 'stone_id', 'public.stone.id']
             ], 'public.product.id', [
-                (sizeof($stones) != 1 || $stones[0] != '') ? 'ARRAY[\'' . implode('\', \'', $stones) . '\']::character varying[] && (ARRAY_AGG(public.stone.name))' : NULL,
-                (sizeof($materials) != 1 || $materials[0] != '') ? 'ARRAY[\'' . implode('\', \'', $materials) . '\']::character varying[] && (ARRAY_AGG(public.material.name))' : NULL
-            ]);
+                $stones != '' ? 'ARRAY[\'' . str_replace(',', '\',\'', $stones) . '\']::character varying[] && (ARRAY_AGG(public.stone.name))' : NULL,
+                $materials != '' ? 'ARRAY[\'' . str_replace(',', '\',\'', $materials) . '\']::character varying[] && (ARRAY_AGG(public.material.name))' : NULL
+                // (sizeof($stones) != 1 || $stones[0] != '') ? 'ARRAY[\'' . implode('\', \'', $stones) . '\']::character varying[] && (ARRAY_AGG(public.stone.name))' : NULL,
+                // (sizeof($materials) != 1 || $materials[0] != '') ? 'ARRAY[\'' . implode('\', \'', $materials) . '\']::character varying[] && (ARRAY_AGG(public.material.name))' : NULL
+            ], 'public.product.id', 30);
 
             if (!$result)
                 throw new Exception('Ошибка запроса');
