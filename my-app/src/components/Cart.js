@@ -74,23 +74,13 @@ class Cart extends Component {
         .then(res => res.json())
         .then(
             (result) => {
-                alert('Товар удалён')
-                this.setState({
-                    is_loaded: true,
-                    //data: result.data,
-                    
-                })                
+                this.getData()       
             },
             (error) => {
-                this.setState({
-                    is_loaded: true,
-                    error
-                })
+
             }
         )
-        
-        this.getData()
-        //window.location = 'http://localhost/Bijouterie/backend/api/image/products/5'
+
         event.stopPropagation()
     }
 

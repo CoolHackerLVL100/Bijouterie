@@ -23,7 +23,6 @@ class Card extends Component {
         .then(res => res.json())
         .then(
             (result) => {
-                alert('Товар добавлен')
                 this.setState({
                     is_loaded: true,
                     
@@ -70,7 +69,7 @@ class Card extends Component {
                     <p className="item-stones">Вставки: {this.clearString(stones)}</p>
                 </div>
                 <div>
-                    <button className="add-button" onClick={this.handleAdd}></button>
+                    <button className="add-button" onClick={this.handleAdd} dangerouslySetInnerHTML={{__html: this.props.basket}}></button>
                 </div>
             </div>
         )

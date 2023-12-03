@@ -27,6 +27,9 @@
         private static $put_routes = [
             '/^\/Bijouterie\/backend\/api\/user\/([0-9]+)\/cart\/([0-9]+)\/$/' => ['User', 'add_to_cart'],
         ];
+        private static $patch_routes = [
+            '/^\/Bijouterie\/backend\/api\/user\/([0-9]+)\/$/' => ['User', 'edit_user'],
+        ];
         private static $delete_routes = [
             '/^\/Bijouterie\/backend\/api\/user\/([0-9]+)\/$/' => ['User', 'remove'],
             '/^\/Bijouterie\/backend\/api\/user\/([0-9]+)\/cart\/([0-9]+)\/$/' => ['User', 'remove_from_cart'], //remove item from cart of user
@@ -42,6 +45,9 @@
                     break;
                 case 'PUT':
                     $routes = static::$put_routes;
+                    break;
+                case 'PATCH':
+                    $routes = static::$patch_routes;
                     break;
                 case 'DELETE':
                     $routes = static::$delete_routes;

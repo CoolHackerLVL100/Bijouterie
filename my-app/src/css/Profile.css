@@ -39,10 +39,28 @@
 }
 .user_section .user_content .user_info {
   display: grid;
-  grid-template-columns: 30% 70%;
+  grid-template-columns: 50% 50%;
   align-content: center;
   height: 100%;
   width: 100%;
+}
+.user_section .user_content .user_info .user-fields {
+  display: grid;
+}
+.user_section .user_content .user_info .user-fields button {
+  height: 30px;
+  width: 50%;
+  margin-top: 20px;
+  box-sizing: border-box;
+  background-color: #F2F2F2;
+  border: 2px solid #690c97;
+  color: #690c97;
+  font-size: 16px;
+}
+.user_section .user_content .user_info .user-fields button:hover {
+  background-color: #690c97;
+  color: #F2F2F2;
+  cursor: pointer;
 }
 .user_section .user_content .cart .cart_item {
   display: grid;

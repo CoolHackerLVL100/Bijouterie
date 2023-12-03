@@ -67,6 +67,8 @@
         protected static function update($table_name, $connection, $values, $conditions=NULL){
             $query = 'UPDATE ' . $table_name . ' SET ';
 
+            var_dump($values);
+
             foreach ($values as $key => $value){
                 $query .= $key . '=\'' . $value . '\', ';
             }
@@ -74,10 +76,14 @@
             $query = rtrim($query, ', ');
 
             if ($conditions){
-                $query .= ' WHERE ';          
-                
-                $query .= implode(' AND ', $conditions); 
+                $conditions = array_filter($conditions);
+
+                if (sizeof($conditions) > 0) {
+                    $query .= ' WHERE ' . implode(' AND ', $conditions); //joins array 'conditions' with separator 'AND'    
+                }      
             }
+            
+            //file_put_contents('./log_'.date("j.n.Y").'.log', $query . "\n", FILE_APPEND);
 
             return Database::query($connection, $query);
         }

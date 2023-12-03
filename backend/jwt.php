@@ -7,8 +7,11 @@ function check_token($admin_required = false) {
     // error_log(implode(', ', $headers));
     // echo('COOKIE: '.implode(', ', $_COOKIE));
     // echo('Header: '.$headers['Authorization']);
+
     if(isset($headers['Authorization']) && isset($_COOKIE['jwt'])){
         error_log($headers['Authorization']);
+
+        
 
         $is_admin = decode_token($headers['Authorization'])['payload']->is_admin;
 

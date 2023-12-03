@@ -191,6 +191,30 @@
                         border-bottom: 1px solid gray;
                     }                
                 }
+
+                button {
+                    width: 24px;
+                    height: 24px;
+                    padding: 0;
+                    border: 0;
+                    background-color: white;
+                    box-shadow: 0 0 5px 0px #bababa;
+
+                    &:hover {
+                        background-color: @main_color;
+                        cursor: pointer;
+
+                        * {
+                            stroke: white;
+                        }
+                    }
+                    
+                    * {
+                        width: 20px;
+                        height: 20px;
+                        margin: 2px;                    
+                    }
+                }
             }
 
             .no-items {

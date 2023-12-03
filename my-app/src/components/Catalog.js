@@ -46,6 +46,19 @@ class Catalog extends Component {
 
     componentDidMount(){
         this.getData(this.props.filter)
+
+        fetch('http://localhost/Bijouterie/backend/api/image/icons/basket.svg')
+        .then(res => res.text())
+        .then(
+            (result) => {
+                this.setState({
+                    basket: result
+                })
+            }, 
+            (error) => {
+                console.log(error)
+            }
+        )
     }
 
     componentDidUpdate(prevState, newState){    
@@ -69,6 +82,7 @@ class Catalog extends Component {
                         size={item.size}
                         materials={item.materials}
                         stones={item.stones}
+                        basket={this.state.basket}
                     />
                 )) : (
                     <div className="no-items PlayfairDisplay">

@@ -6,6 +6,8 @@ import NotFound from './components/NotFound.js'
 import Gallery from './components/Gallery.js'
 import Profile from './components/Profile.js'
 import Admin from './components/Admin.js'
+import Auth from './components/Auth.js'
+import Reg from './components/Reg.js'
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 
 
@@ -18,6 +20,8 @@ function App() {
             <Route path='/gallery' element={<Gallery/>}/> 
             <Route path='/profile' element={<Profile/>}/> 
             <Route path='/admin' element={<Admin/>}/> 
+            <Route path='/auth' element={<Auth/>}/>
+            <Route path='/reg' element={<Reg/>}/>
             <Route path='*' element={<NotFound/>}/> 
         </Routes>
     </Router>

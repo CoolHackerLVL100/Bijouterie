@@ -6,7 +6,7 @@
     header('Content-Type: application/json; charset=utf-8');
     header('Access-Control-Allow-Origin: http://localhost:3000');
     header('Access-Control-Allow-Credentials: true');
-    header('Access-Control-Allow-Methods: DELETE, POST, GET, OPTIONS');
+    header('Access-Control-Allow-Methods: DELETE, POST, GET, OPTIONS, PATCH, PUT');
     header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
     header('Access-Control-Max-Age: 86400');
 
@@ -106,8 +106,25 @@
                 Request::response($e->getCode(), $e->getMessage());
             } 
         }
-        public static function update_user(){
+        public static function edit_user(){
+            if (check_token()){    
+                $_PATCH = json_decode(file_get_contents('php://input'), true);
 
+                echo file_get_contents('php://input');
+                try {
+                    Request::response(200, '', UserModel::edit(
+                        $_GET['id'],
+                        $_PATCH['firstname'],
+                        $_PATCH['lastname'],
+                        $_PATCH['gender'],
+                        $_PATCH['email']
+                    ));
+                } catch (Exception $e) {
+                    Request::response(500, $e->getMessage());
+                }
+            } else {
+                Request::response(401, 'Отсутствуют права доступа на данный ресурс');
+            }
         }
         public static function remove_user(){
             if (check_token(true)){
@@ -119,7 +136,7 @@
                     Request::response(500, $e->getMessage());
                 }                
             } else {
-                Request::response(401, 'Отсутствуют права доступа на данный ресурс');
+                Request::response(403, 'Отсутствуют права доступа на данный ресурс');
             }  
         }
         private static function validate(){

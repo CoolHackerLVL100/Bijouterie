@@ -113,7 +113,7 @@
 
             return Database::fetch_all($result);
         }
-        public static function remove($user_id, $product_id){
+        public static function remove($user_id){
             global $admin_connect; 
 
             $result = static::delete('public.user', $admin_connect, [
@@ -199,6 +199,23 @@
                 throw new Exception('Ошибка запроса', 500);
 
             return true;
+        }
+        public static function edit($id, $firstname, $lastname, $gender, $email){
+            global $user_connect; 
+
+            $result = static::update('public.user', $user_connect, [
+                'firstname' => $firstname,
+                'lastname' => $lastname,
+                'gender' => $gender,
+                'email' => $email
+            ], [
+                'id = ' . $id
+            ]);
+
+            if (!$result)
+                throw new Exception('Ошибка запроса');
+
+            return Database::fetch_all($result);
         }
     }
 ?>

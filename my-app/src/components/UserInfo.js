@@ -8,7 +8,27 @@ class UserInfo extends Component {
         super(props)
 
         this.state = {
-            data: null
+            firstname: null, 
+            lastname: null,
+            gender: null,
+            email: null,
+            registration_date: null,
+            personal_stock: null,
+            editable: false,
+            isEdited: false
+        }
+
+        this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+    }
+
+    setGender(gender){
+        if (gender == 'f'){
+            return 'Женский'
+        } else if (gender == 'm') {
+            return 'Мужской'
+        } else {
+            return 'Не определён'
         }
     }
 
@@ -26,8 +46,13 @@ class UserInfo extends Component {
             (result) => {
                 this.setState({
                     is_loaded: true,
-                    data: result.data,
-                    
+                    firstname: result.data.firstname, 
+                    lastname: result.data.lastname,
+                    gender: result.data.gender,
+                    email: result.data.email,
+                    registration_date: result.data.registration_date,
+                    personal_stock: result.data.personal_stock
+   
                 })                
             },
             (error) => {
@@ -39,6 +64,44 @@ class UserInfo extends Component {
         )        
     }
 
+    handleSubmit(event){
+        if (this.state.editable){
+            if (this.state.isEdited){
+                fetch('http://localhost/Bijouterie/backend/api/user/' + getCookie('id') + '/', {
+                    method: 'PATCH',
+                    credentials: 'include',
+                    headers: {
+                        Authorization: getCookie('jwt')
+                    },
+                    body: JSON.stringify({
+                        firstname: this.state.firstname,
+                        lastname: this.state.lastname,
+                        gender: this.state.gender,
+                        email: this.state.email
+                    })
+                }).then(
+                    (result) => {
+                        this.setState({
+                            isEdited: false
+                        })
+                    }
+                )                
+            }
+
+        }
+
+        this.setState({
+            editable: !this.state.editable
+        })
+        event.preventDefault()
+    }
+
+    handleChange(event){
+        this.setState({
+            [event.target.name]: event.target.value,
+            isEdited: true
+        })
+    }
 
     render(){
         return (
@@ -46,17 +109,52 @@ class UserInfo extends Component {
                 <div className="avatar">
 
                 </div>
-                <div>
-                    <div className="firstname">Имя: {this.state.data?.firstname}</div>
-                    <div className="lastname">Фамилия: {this.state.data?.lastname}</div>
-                    <div className="gender">Пол: {this.state.data?.gender}</div>
-                    <div className="email">Почта: {this.state.data?.email}</div>
-                    <div className="reg_date">Дата регистрации: {this.state.data?.registration_date}</div>
-                    <div className="stock">Персональная скидка: {this.state.data?.personal_stock}</div>
-                    
-                </div>
+                
+                {
+                    !this.state.editable ? (  
+                        <form className="user-fields" onSubmit={this.handleSubmit}>  
+                            <div className="firstname">Имя: {this.state.firstname}</div>
+                            <div className="lastname">Фамилия: {this.state.lastname}</div>
+                            <div className="gender">Пол: {this.setGender(this.state.gender)}</div>
+                            <div className="email">Почта: {this.state.email}</div>
+                            <div className="reg_date">Дата регистрации: {this.state.registration_date}</div>
+                            <div className="stock">Персональная скидка: {this.state.personal_stock}</div>
+                            <button type="submit">Редактировать</button>
+                        </form>
+                    ) : (
+                        <form className="user-fields" onSubmit={this.handleSubmit}>  
+                            <label>
+                                Имя: 
+                                <input type="text" name="firstname" value={this.state.firstname} onChange={this.handleChange}/>
+                            </label>
+                            <label>
+                                Фамилия: 
+                                <input type="text" name="lastname" value={this.state.lastname} onChange={this.handleChange}/>
+                            </label>
+                            <label>
+                                Пол: 
+                                <select type="text" name="gender" value={this.state.gender} onChange={this.handleChange}>
+                                    <option value="f">Женский</option>
+                                    <option value="m">Мужской</option>
+                                    <option value="u">Не определён</option>
+                                </select> 
+                            </label>
+                            <label>
+                                Почта: 
+                                <input type="text" name="email" value={this.state.email} onChange={this.handleChange}/>
+                            </label>          
+                            <div className="reg_date">Дата регистрации: {this.state.registration_date}</div>
+                            <div className="stock">Персональная скидка: {this.state.personal_stock}</div>
+                            <button type="submit">Сохранить</button>
+                        </form>    
+                    ) 
+                }
+
+                
                 
             </div>
+                
+            
         )
     }
 }

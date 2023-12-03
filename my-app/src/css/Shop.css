@@ -158,6 +158,26 @@
   font-size: 16px;
   border-bottom: 1px solid gray;
 }
+.shop_section .main_content .catalog .item button {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background-color: white;
+  box-shadow: 0 0 5px 0px #bababa;
+}
+.shop_section .main_content .catalog .item button:hover {
+  background-color: #690c97;
+  cursor: pointer;
+}
+.shop_section .main_content .catalog .item button:hover * {
+  stroke: white;
+}
+.shop_section .main_content .catalog .item button * {
+  width: 20px;
+  height: 20px;
+  margin: 2px;
+}
 .shop_section .main_content .catalog .no-items {
   text-align: center;
   font-size: 24px;
