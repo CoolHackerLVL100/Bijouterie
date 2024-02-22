@@ -1,5 +1,8 @@
 <?php
-    
+    require_once 'database.php';
+    require_once 'connection.php';
+    require_once 'request.php';
+
     final class Resource {
         public static function get_image(){
             $segments = explode('/', parse_url($_SERVER['REQUEST_URI'])['path']);
@@ -21,6 +24,24 @@
             header('Content-Disposition: inline; filename="' . basename($font_name) . '"');
 
             readfile($font_name); 
+        }
+
+        public static function get_gallery(){
+            global $user_connect;
+
+            try {
+                $result = Database::query($user_connect, 'SELECT * FROM public.gallery');   
+
+                if (!$result)
+                    throw new Exception('Ошибка запроса');
+
+                Request::response(200, '', 
+                    Database::fetch_all($result)
+                );    
+            } catch (Exception $e){
+                Request::response(500, $e->getMessage());
+            }
+            
         }
     }
 

@@ -3,9 +3,13 @@ RewriteBase /Bijouterie/backend/
 
 RewriteRule ^api/font/([A-Za-z\-0-9])+\.ttf/?$ index.php
 RewriteRule ^api/image/([a-z])+/([A-Za-z\-0-9])+\.([a-z])+/?$ index.php
+RewriteRule ^api/gallery/?$ index.php
 
 RewriteRule ^api/product/([0-9]+)/?$ index.php?id=$1 [L,QSA]
 RewriteRule ^api/product/?$ index.php
+
+RewriteRule ^api/order/([0-9]+)/?$ index.php?id=$1 [L,QSA]
+RewriteRule ^api/order/?$ index.php
 
 RewriteRule ^api/user/([0-9]+)/?$ index.php?id=$1 [L,QSA]
 RewriteRule ^api/user/?$ index.php
@@ -13,6 +17,9 @@ RewriteRule ^api/user/([0-9]+)/cart/?$ index.php?id=$1 [L,QSA]
 RewriteRule ^api/user/([0-9]+)/cart/([0-9]+)/?$ index.php?product_id=$2&user_id=$1 [L,QSA]
 RewriteRule ^api/user/auth/?$ index.php
 RewriteRule ^api/user/reg/?$ index.php
+
+RewriteRule ^api/backup/[a-z]+/?$ index.php
+RewriteRule ^api/restore/[a-z]+/?$ index.php
 # RewriteEngine On
 
 # RewriteRule ^(.+)$ index.php

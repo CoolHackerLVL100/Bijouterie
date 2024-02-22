@@ -1,0 +1,97 @@
+@main_color: #690c97;
+@light_violet: #9e52c4;
+@dark_violet: #3c0557;
+
+.admin-aside {
+    margin: 0 !important;
+    position: fixed !important;
+    height: 100vh;
+    width: 240px;    
+    box-shadow: 0 0 5px 0px #bababa;
+
+    details {    
+        & > * {
+            height: fit-content;
+        }
+
+        &[open] > summary {
+            background-color: #690c97;
+            color: white;
+            opacity: 0.55;
+            box-shadow: 1px 1px 5px 2px @dark_violet;
+        }        
+
+        &:not([open]) > summary:hover {
+            background-color: #ebebeb;
+            cursor: pointer;
+        }
+
+        summary {
+            padding: 20px;
+            box-sizing: border-box;
+            font-weight: bold;
+        }
+
+        &[class="tables"] > summary::marker {
+            content: '💾 ';
+        }
+
+        &[class="statistics"] > summary::marker {
+            content: '📈 ';
+        }
+
+        &[class="reports"] > summary::marker {
+            content: '📝 ';
+        }
+
+        .point {
+            box-sizing: border-box;
+            padding: 20px 20px 20px 50px;
+            width: 100%;
+            background-color: white;
+            border: 1px;
+            text-align: left;
+            font-size: 16px;
+
+            &:hover {
+                background-color: #ebebeb;
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+.db-table {
+    border-collapse: collapse;
+
+    tr {
+        height: 50px;
+    }
+    
+    th {
+        text-align: left;
+    }
+
+    tr:nth-child(even){
+        background-color: aliceblue;
+    }
+
+    tr:first-child {
+        background-color: #353148;
+        color: white;
+
+        th {
+            text-align: center;
+            padding: 0 5px 0 5px;
+        }
+    }
+}
+
+.backup-section {
+    display: grid;
+    grid-template-rows: 3;
+
+    form {
+        padding: 20px;
+    }
+}

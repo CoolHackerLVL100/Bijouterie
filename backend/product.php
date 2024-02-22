@@ -40,4 +40,17 @@
         public static function delete_product(){
             
         }
+
+        public static function backup_to_json(){
+            if (check_token(true)){
+                try {
+                     
+                    Request::response(200, '', ProductModel::toJSON());
+                } catch (Exception $e) {
+                    Request::response(500, $e->getMessage());
+                }                
+            } else {
+                Request::response(403, 'Отсутствуют права доступа на данный ресурс');
+            }  
+        }
     }

@@ -33,13 +33,15 @@ class Shop extends Component {
                     <div className="container">
                         <div className="main_content">
                             <Types type={this.state.type} onSubmit={this.handleSubmit}/>
-                            <Filter min_price={this.state.min_price} 
-                                        max_price={this.state.max_price}
-                                        gender={this.state.gender}
-                                        size={this.state.size}
-                                        stones={this.state.stones}
-                                        materials={this.state.materials}
-                                        onSubmit={this.handleSubmit} />
+                            <Filter 
+                                min_price={this.state.min_price} 
+                                max_price={this.state.max_price}
+                                gender={this.state.gender}
+                                size={this.state.size}
+                                stones={this.state.stones}
+                                materials={this.state.materials}
+                                onSubmit={this.handleSubmit} 
+                            />
                             <Catalog filter={this.state}/>  
                         </div>
                     </div>             

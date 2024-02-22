@@ -40,7 +40,6 @@ class UserInfo extends Component {
                 Authorization: getCookie('jwt')
             }
         })
-
         .then(res => res.json())
         .then(
             (result) => {

@@ -1,0 +1,74 @@
+.admin-aside {
+  margin: 0 !important;
+  position: fixed !important;
+  height: 100vh;
+  width: 240px;
+  box-shadow: 0 0 5px 0px #bababa;
+}
+.admin-aside details > * {
+  height: fit-content;
+}
+.admin-aside details[open] > summary {
+  background-color: #690c97;
+  color: white;
+  opacity: 0.55;
+  box-shadow: 1px 1px 5px 2px #3c0557;
+}
+.admin-aside details:not([open]) > summary:hover {
+  background-color: #ebebeb;
+  cursor: pointer;
+}
+.admin-aside details summary {
+  padding: 20px;
+  box-sizing: border-box;
+  font-weight: bold;
+}
+.admin-aside details[class="tables"] > summary::marker {
+  content: '💾 ';
+}
+.admin-aside details[class="statistics"] > summary::marker {
+  content: '📈 ';
+}
+.admin-aside details[class="reports"] > summary::marker {
+  content: '📝 ';
+}
+.admin-aside details .point {
+  box-sizing: border-box;
+  padding: 20px 20px 20px 50px;
+  width: 100%;
+  background-color: white;
+  border: 1px;
+  text-align: left;
+  font-size: 16px;
+}
+.admin-aside details .point:hover {
+  background-color: #ebebeb;
+  cursor: pointer;
+}
+.db-table {
+  border-collapse: collapse;
+}
+.db-table tr {
+  height: 50px;
+}
+.db-table th {
+  text-align: left;
+}
+.db-table tr:nth-child(even) {
+  background-color: aliceblue;
+}
+.db-table tr:first-child {
+  background-color: #353148;
+  color: white;
+}
+.db-table tr:first-child th {
+  text-align: center;
+  padding: 0 5px 0 5px;
+}
+.backup-section {
+  display: grid;
+  grid-template-rows: 3;
+}
+.backup-section form {
+  padding: 20px;
+}

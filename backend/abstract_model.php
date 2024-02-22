@@ -1,6 +1,7 @@
 <?php
     require_once 'database.php';
     require_once 'connection.php';
+
     class AbstractModel {
         protected static function select($table_name, $connection, $fields, $conditions = NULL, $joins = NULL, $group_by = NULL, $having = NULL, $order_by = NULL, $limit = NULL, $offset = NULL) {
             $query = 'SELECT ';
@@ -99,4 +100,3 @@
             return Database::query($connection, $query);     
         }
     }
-?>

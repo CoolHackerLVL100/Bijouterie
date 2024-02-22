@@ -59,7 +59,7 @@ class Card extends Component {
                 <div className="item-image">
                     <img src={"http://localhost/Bijouterie/backend/api/image/products/" + photo}></img>
                 </div>
-                <div className="item-info 5">
+                <div className="item-info">
                     <p className="item-name">{name}</p>
                     <p className="item-price">Тип: {type}</p>
                     <p className="item-manufacturer">Производитель: {manufacturer}</p>
@@ -69,7 +69,12 @@ class Card extends Component {
                     <p className="item-stones">Вставки: {this.clearString(stones)}</p>
                 </div>
                 <div>
-                    <button className="add-button" onClick={this.handleAdd} dangerouslySetInnerHTML={{__html: this.props.basket}}></button>
+                    <button 
+                        className="add-button" 
+                        onClick={this.handleAdd} 
+                        dangerouslySetInnerHTML={{__html: this.props.basket}}
+                    >
+                    </button>
                 </div>
             </div>
         )

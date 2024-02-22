@@ -106,25 +106,36 @@
                 Request::response($e->getCode(), $e->getMessage());
             } 
         }
-        public static function edit_user(){
-            if (check_token()){    
-                $_PATCH = json_decode(file_get_contents('php://input'), true);
+        public static function edit_user(){   
+            $_PATCH = json_decode(file_get_contents('php://input'), true);
 
-                echo file_get_contents('php://input');
-                try {
+            try {
+                if (check_token(true)){ //edited from admin panel
                     Request::response(200, '', UserModel::edit(
                         $_GET['id'],
                         $_PATCH['firstname'],
                         $_PATCH['lastname'],
+                        $_PATCH['email'],
                         $_PATCH['gender'],
-                        $_PATCH['email']
-                    ));
-                } catch (Exception $e) {
-                    Request::response(500, $e->getMessage());
+                        $_PATCH['is_admin'],
+                        $_PATCH['registration_date'],
+                        $_PATCH['personal_stock'],
+                        $_PATCH['avatar']
+                    ));       
+                } else if (check_token()) {
+                    Request::response(200, '', UserModel::edit(
+                        $_GET['id'],
+                        $_PATCH['firstname'],
+                        $_PATCH['lastname'],
+                        $_PATCH['email'],
+                        $_PATCH['gender']
+                    ));                        
+                } else {
+                    Request::response(401, 'Отсутствуют права доступа на данный ресурс');
                 }
-            } else {
-                Request::response(401, 'Отсутствуют права доступа на данный ресурс');
-            }
+            } catch (Exception $e) {
+                Request::response(500, $e->getMessage());
+            }   
         }
         public static function remove_user(){
             if (check_token(true)){
@@ -132,6 +143,23 @@
                     Request::response(200, '', UserModel::remove(      
                         $_GET['user_id']
                     ));          
+                } catch (Exception $e) {
+                    Request::response(500, $e->getMessage());
+                }                
+            } else {
+                Request::response(403, 'Отсутствуют права доступа на данный ресурс');
+            }  
+        }        
+        public static function backup_to_json(){
+            if (check_token(true)){
+                try {
+                     
+                    Request::response(200, '', UserModel::toJSON());
+                    // $data = UserModel::toJSON();
+                    // $file = fopen('backups/user.json', 'w');
+                    // fwrite($file, $data);
+                    // readfile($file);
+                    // fclose($file);
                 } catch (Exception $e) {
                     Request::response(500, $e->getMessage());
                 }                
@@ -164,4 +192,6 @@
             if ($_POST['password'] != $_POST['password_confirm'])
                 throw new Exception('Пароли не совпадают', 400);
         }
+
+
     }

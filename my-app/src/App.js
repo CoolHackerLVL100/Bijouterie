@@ -8,6 +8,7 @@ import Profile from './components/Profile.js'
 import Admin from './components/Admin.js'
 import Auth from './components/Auth.js'
 import Reg from './components/Reg.js'
+import Product from './components/Product.js'
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 
 
@@ -23,6 +24,7 @@ function App() {
             <Route path='/auth' element={<Auth/>}/>
             <Route path='/reg' element={<Reg/>}/>
             <Route path='*' element={<NotFound/>}/> 
+            <Route path='/shop/:id' element={<Product/>}/>
         </Routes>
     </Router>
   );

@@ -200,16 +200,47 @@
 
             return true;
         }
-        public static function edit($id, $firstname, $lastname, $gender, $email){
+        public static function edit($id, $firstname, $lastname, $email, $gender, $is_admin = NULL, $registration_date = NULL, $personal_stock = NULL, $avatar = NULL){
             global $user_connect; 
 
-            $result = static::update('public.user', $user_connect, [
+            check_token(true) ? $changes = [
+                'is_admin' => $is_admin,
+                'registration_date' => $registration_date,
+                'personal_stock' => $personal_stock,
                 'firstname' => $firstname,
                 'lastname' => $lastname,
+                'email' => $email,
                 'gender' => $gender,
-                'email' => $email
-            ], [
+                'avatar' => $avatar
+            ] : $changes = [
+                'firstname' => $firstname,
+                'lastname' => $lastname,
+                'email' => $email,
+                'gender' => $gender
+            ];
+
+            $result = static::update('public.user', $user_connect, $changes, [
                 'id = ' . $id
+            ]);
+
+            if (!$result)
+                throw new Exception('Ошибка запроса');
+
+            return Database::fetch_all($result);
+        }
+        public static function toJSON(){
+            global $admin_connect; 
+
+            $result = static::select('public.user', $admin_connect, [
+                'id', 
+                'is_admin', 
+                'registration_date', 
+                'personal_stock', 
+                'firstname', 
+                'lastname', 
+                'email', 
+                'gender', 
+                'avatar'
             ]);
 
             if (!$result)

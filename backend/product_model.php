@@ -49,7 +49,7 @@
             ], [
                 $type != '' ? 'type = \'' . $type . '\'' : NULL,
                 'price::numeric::float BETWEEN ' . $min_price . ' AND ' . $max_price,
-                'gender = \'' . $gender . '\'',
+                $gender != '' ? 'gender = \'' . $gender . '\'' : NULL,
                 $size != '' ? 'ARRAY[size]::numeric[] && ARRAY[' . $size . ']' : NULL
             ], [
                 ['public.product_material', 'LEFT', 'public.product.id', 'public.product_material.product_id'],
@@ -68,5 +68,45 @@
 
             return Database::fetch_all($result);
         }
+
+        public static function toJSON(){
+            global $admin_connect; 
+
+            $result = static::select('public.product', $admin_connect, [
+                'id', 
+                'type', 
+                'name', 
+                'manufacturer', 
+                'price', 
+                'photo', 
+                'gender', 
+                'size', 
+            ]);
+
+            if (!$result)
+                throw new Exception('Ошибка запроса');
+
+            return Database::fetch_all($result);
+        }
+
+        public static function fromJSON(){
+            global $admin_connect;
+
+            $data = json_decode(file_get_contents($_FILES['user']['tmp_name']));
+
+            $query = 'INSERT INTO public.order (user_id, date, product_id, amount) VALUES ';
+
+            foreach ($data as $record){
+                $query .= '(' . $record->user_id . ', \'' . $record->date . '\', ' . $record->product_id . ', ' . '\'' . $record->amount . '\'),';
+            }
+
+            $query = substr($query, 0, -1);
+
+            $result = Database::query($admin_connect, $query);
+               
+            if (!$result)
+                throw new Exception('Ошибка запроса');
+
+            return Database::fetch_all($result);
+        }
     }
-?>

@@ -25,11 +25,25 @@ class Filter extends Component {
         return (
             <div className="tabs">
                 <form className="PlayfairDisplay" onSubmit={this.handleSubmit}>
-                    {this.tabs.map(tab => tab == this.state.tab ? (
-                        <button className="selected_type PlayfairDisplay" disabled key={tab} type="submit" name={tab}>{tab}</button>
-                    ) : (
-                        <button className="PlayfairDisplay" key={tab} type="submit" name={tab} onClick={this.handleClick}>{tab}</button>
-                    ))}
+                    {
+                        this.tabs.map(tab => tab == this.state.tab ? (
+                            <button 
+                                className="selected_type PlayfairDisplay" 
+                                disabled
+                                key={tab} 
+                                type="submit" 
+                                name={tab}
+                            >{tab}</button>
+                        ) : (
+                            <button 
+                                className="PlayfairDisplay" 
+                                key={tab} 
+                                type="submit" 
+                                name={tab} 
+                                onClick={this.handleClick}
+                            >{tab}</button>
+                        ))
+                    }
                     
                 </form>
             </div>

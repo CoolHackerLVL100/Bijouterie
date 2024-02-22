@@ -58,12 +58,12 @@ class Cart extends Component {
         )
     }
 
-    refHandler(){
+    refHandle(){
         //window.location = 'http://localhost/Bijouterie/backend/api/image/products'
         console.log('ref')
     }
 
-    deleteHandler(event, id){
+    deleteHandle(event, id){
         fetch('http://localhost/Bijouterie/backend/api/user/' + getCookie('id') + '/' + 'cart/' + id + '/', {
             method: 'DELETE',
             credentials: 'include',
@@ -89,11 +89,16 @@ class Cart extends Component {
             <div className="cart PlayfairDisplay">
                 <div className="cart_wrapper">
                     {this.state.items.length > 0 ? this.state.items.map(item => (
-                        <div key={item.id} className="cart_item" id={item.id} onClick={this.refHandler} >
+                        <div key={item.id} className="cart_item" id={item.id} onClick={this.refHandle} >
                             <img src={"http://localhost/Bijouterie/backend/api/image/products/" + item.photo}></img>
                             <p className="item-name">{item.name}</p>
                             <p className="item-price">{item.price}</p>
-                            <div className="item-delete" dangerouslySetInnerHTML={{__html: this.state.delete}} data-key={item.id} onClick={(event) => this.deleteHandler(event, item.id)}></div>
+                            <div 
+                                className="item-delete" 
+                                dangerouslySetInnerHTML={{__html: this.state.delete}} 
+                                data-key={item.id} 
+                                onClick={(event) => this.deleteHandle(event, item.id)}>
+                            </div>
                         </div>
                     )) : (
                         <div className="no-items PlayfairDisplay">

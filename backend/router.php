@@ -1,6 +1,7 @@
 <?php
     require_once 'user.php';
     require_once 'product.php';
+    require_once 'order.php';
     require_once 'resource.php';
 
     header('Access-Control-Allow-Credentials: true');
@@ -19,13 +20,22 @@
             '/^\/Bijouterie\/backend\/api\/review\/([0-9]+)\/$/' => ['Review', 'get_review'], //get some review 
             '/^\/Bijouterie\/backend\/api\/image\/([a-z]+)\/([a-zA-Z0-9_\-]+)\.([a-z]{2,5})$/' => ['Resource', 'get_image'], //get some image 
             '/^\/Bijouterie\/backend\/api\/font\/([a-zA-Z0-9_\-]+)\.([a-z]{2,5})$/' => ['Resource', 'get_font'], //get some font 
+            '/^\/Bijouterie\/backend\/api\/gallery\/$/' => ['Resource', 'get_gallery'], //get gallery 
+            '/^\/Bijouterie\/backend\/api\/backup\/user\/$/' => ['User', 'backup_to_json'], //backup for users
+            '/^\/Bijouterie\/backend\/api\/backup\/product\/$/' => ['Product', 'backup_to_json'], //backup for products
+            '/^\/Bijouterie\/backend\/api\/backup\/order\/$/' => ['Order', 'backup_to_json'], //backup for orders
+
         ];
         private static $post_routes = [
             '/^\/Bijouterie\/backend\/api\/user\/auth\/$/' => ['User', 'auth_user'], //authorization of user
             '/^\/Bijouterie\/backend\/api\/user\/reg\/$/' => ['User', 'reg_user'], //registration of user 
+            '/^\/Bijouterie\/backend\/api\/restore\/user\/$/' => ['User', 'restore_from_json'], //backup for users
+            '/^\/Bijouterie\/backend\/api\/restore\/product\/$/' => ['Product', 'restore_from_json'], //backup for products
+            '/^\/Bijouterie\/backend\/api\/restore\/order\/$/' => ['Order', 'restore_from_json'], //backup for orders                   
         ];
         private static $put_routes = [
             '/^\/Bijouterie\/backend\/api\/user\/([0-9]+)\/cart\/([0-9]+)\/$/' => ['User', 'add_to_cart'],
+     
         ];
         private static $patch_routes = [
             '/^\/Bijouterie\/backend\/api\/user\/([0-9]+)\/$/' => ['User', 'edit_user'],
